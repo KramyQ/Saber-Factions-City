@@ -117,6 +117,7 @@ public enum Permission {
     PROMOTE("promote"),
     RALLY("rally"),
     RELATION("relation"),
+    WAR("war"),
     RELOAD("reload"),
     ROSTER("roster"),
     SAVE("save"),

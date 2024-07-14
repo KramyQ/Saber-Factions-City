@@ -93,6 +93,9 @@ public class Conf {
     public static boolean useGraceSystem = true;
     public static boolean broadcastGraceToggles = true;
     public static int gracePeriodTimeDays = 7;
+    public static int warPeriodTimeMinutes = 1;
+    public static int preWarPeriodTimeMinutes = 1;
+    public static int postWarPeriodTimeMinutes = 1;
     public static boolean noEnderpearlsInFly = false;
     public static boolean broadcastDescriptionChanges = false;
     public static boolean broadcastTagChanges = false;

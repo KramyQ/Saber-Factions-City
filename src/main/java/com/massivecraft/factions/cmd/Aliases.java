@@ -120,6 +120,7 @@ public class Aliases {
     public static ArrayList<String> peaceful = new ArrayList<>(Collections.singletonList("peaceful"));
     public static ArrayList<String> perm = new ArrayList<>(Arrays.asList("perm", "perms", "permission", "permissions"));
     public static ArrayList<String> permanent_faction = new ArrayList<>(Collections.singletonList("permanent"));
+    public static ArrayList<String> war = new ArrayList<>(Collections.singletonList("war"));
 
     public static ArrayList<String> roster_rosters = new ArrayList<>(Arrays.asList("rosters", "roster"));
     public static ArrayList<String> roster_invite = new ArrayList<>(Arrays.asList("add", "invite"));

@@ -820,6 +820,13 @@ public enum TL {
     FACTION_RALLY_MESSAGE("&e&l[!] &7%1$s's coords are &e%2$s, %3$s, %4$s"),
     COMMAND_RALLY_DESCRIPTION("Send a Rally Message/Waypoint To Faction Members"),
 
+    COMMAND_WAR_NOPE("&c&l[!]&7 &cNope!You can't."),
+    COMMAND_WAR_MORENOPE("&c&l[!]&7 &cNope!&7You can't declare a war to &cyourself"),
+    COMMAND_WAR_NOT_ENEMY("&c&l[!]&7 You &are&7 not enemy with&c %1$s."),
+    COMMAND_WAR_NOT_ENOUGH_ENEMY("&c&l[!]&7 Your &enemy&7 doesn't have enough members connected."),
+    COMMAND_WAR_NOT_ENOUGH_MEMBERS("&c&l[!]&7 Your &city&7  doesn't have enough members connected."),
+
+
     COMMAND_RELATIONS_ALLTHENOPE("&c&l[!]&7 &cNope!You can't."),
     COMMAND_RELATIONS_MORENOPE("&c&l[!]&7 &cNope!&7You can't declare a relation to &cyourself"),
     COMMAND_RELATIONS_ALREADYINRELATIONSHIP("&c&l[!]&7 You &calready&7 have that relation wish set with&c %1$s."),
@@ -912,6 +919,7 @@ public enum TL {
 
 
     COMMAND_VIEWCHEST_DESCRIPTION("view a factions chest/pv"),
+    COMMAND_WAR_DESCRIPTION("Declare war to another faction."),
 
     COMMAND_VAULT_DESCRIPTION("Open your placed faction vault!"),
     COMMAND_VAULT_INVALID("&c&l[!]&7 Your vault was either&c claimed&7, &cbroken&7, or has&c not been&7 placed yet."),

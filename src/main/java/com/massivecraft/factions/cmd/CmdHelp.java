@@ -119,6 +119,7 @@ public class CmdHelp extends FCommand {
 
         pageLines = new ArrayList<>();
         pageLines.add(FactionsPlugin.getInstance().cmdBase.cmdClaim.getUsageTemplate(context));
+        pageLines.add(FactionsPlugin.getInstance().cmdBase.cmdWar.getUsageTemplate(context));
         pageLines.add(FactionsPlugin.getInstance().cmdBase.cmdAutoClaim.getUsageTemplate(context));
         pageLines.add(FactionsPlugin.getInstance().cmdBase.cmdUnclaim.getUsageTemplate(context));
         pageLines.add(FactionsPlugin.getInstance().cmdBase.cmdUnclaimall.getUsageTemplate(context));
@@ -145,6 +146,7 @@ public class CmdHelp extends FCommand {
         pageLines = new ArrayList<>();
         pageLines.add(FactionsPlugin.getInstance().cmdBase.cmdDisband.getUsageTemplate(context));
         pageLines.add("");
+        pageLines.add(FactionsPlugin.getInstance().cmdBase.cmdWar.getUsageTemplate(context));
         pageLines.add(FactionsPlugin.getInstance().cmdBase.cmdRelationAlly.getUsageTemplate(context));
         pageLines.add(FactionsPlugin.getInstance().cmdBase.cmdRelationNeutral.getUsageTemplate(context));
         pageLines.add(FactionsPlugin.getInstance().cmdBase.cmdRelationEnemy.getUsageTemplate(context));

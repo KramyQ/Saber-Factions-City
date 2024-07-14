@@ -3,6 +3,7 @@ package com.massivecraft.factions.scoreboards;
 import com.massivecraft.factions.FPlayer;
 import com.massivecraft.factions.FPlayers;
 import com.massivecraft.factions.FactionsPlugin;
+import com.massivecraft.factions.scoreboards.sidebar.FWarSidebar;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -25,6 +26,7 @@ public class FScoreboard {
     private final BufferedObjective bufferedObjective;
     private FSidebarProvider defaultProvider;
     private FSidebarProvider temporaryProvider;
+    private FSidebarProvider warProvider;
     private boolean removed = false;
 
     private FScoreboard(FPlayer fplayer) {
@@ -62,7 +64,7 @@ public class FScoreboard {
         FScoreboard fboard = fscoreboards.remove(fplayer);
 
         if (fboard != null) {
-            if(Bukkit.getScoreboardManager() != null) {
+            if (Bukkit.getScoreboardManager() != null) {
                 if (fboard.scoreboard == player.getScoreboard()) { // No equals method implemented, so may as well skip a nullcheck
                     player.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
                 }
@@ -104,19 +106,19 @@ public class FScoreboard {
         defaultProvider = provider;
         if (temporaryProvider == null) {
             // We have no temporary provider; update the BufferedObjective!
-            updateObjective();
+            updateSideBar();
         }
 
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (removed || provider != defaultProvider) {
+                if (removed || provider != defaultProvider && provider != warProvider) {
                     cancel();
                     return;
                 }
 
                 if (temporaryProvider == null) {
-                    updateObjective();
+                    updateSideBar();
                 }
             }
         }.runTaskTimer(FactionsPlugin.getInstance(), 20, 20);
@@ -128,7 +130,7 @@ public class FScoreboard {
         }
 
         temporaryProvider = provider;
-        updateObjective();
+        updateSideBar();
 
         new BukkitRunnable() {
             @Override
@@ -139,14 +141,23 @@ public class FScoreboard {
 
                 if (temporaryProvider == provider) {
                     temporaryProvider = null;
-                    updateObjective();
+                    updateSideBar();
                 }
             }
         }.runTaskLater(FactionsPlugin.getInstance(), FactionsPlugin.getInstance().getConfig().getInt("scoreboard.expiration", 7) * 20L);
     }
 
-    private void updateObjective() {
-        FSidebarProvider provider = temporaryProvider != null ? temporaryProvider : defaultProvider;
+    public void setWarSidebar(final FSidebarProvider provider) {
+        if (!isSupportedByServer()) {
+            return;
+        }
+
+        warProvider = provider;
+        updateSideBar();
+    }
+
+    private void updateSideBar() {
+        FSidebarProvider provider = temporaryProvider != null ? temporaryProvider : warProvider != null ? warProvider: defaultProvider;
 
         if (provider == null) {
             bufferedObjective.hide();

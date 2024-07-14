@@ -29,6 +29,7 @@ import com.massivecraft.factions.util.adapters.*;
 import com.massivecraft.factions.util.flight.FlightEnhance;
 import com.massivecraft.factions.util.flight.stuct.AsyncPlayerMap;
 import com.massivecraft.factions.util.timer.TimerManager;
+import com.massivecraft.factions.war.War;
 import com.massivecraft.factions.zcore.CommandVisibility;
 import com.massivecraft.factions.zcore.MPlugin;
 import com.massivecraft.factions.zcore.file.impl.FileManager;
@@ -53,9 +54,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.lang.reflect.Modifier;
 import java.util.*;
+
+import static com.massivecraft.factions.war.War.startWarManagerTask;
 
 
 public class FactionsPlugin extends MPlugin {
@@ -79,6 +83,8 @@ public class FactionsPlugin extends MPlugin {
     public static Permission perms = null;
     private Map<String, FactionsAddon> factionsAddonHashMap;
     private final HashMap<Faction, String> shieldStatMap = new HashMap<>();
+    private final ArrayList<War> warList = new ArrayList<>();
+    private BukkitTask warManagerTask;
 
     // This plugin sets the boolean true when fully enabled.
     // Plugins can check this boolean while hooking in have
@@ -228,6 +234,7 @@ public class FactionsPlugin extends MPlugin {
             // Set startup finished to true. to give plugins hooking in a greenlight
             FactionsPlugin.startupFinished = true;
         });
+        startWarManagerTask();
     }
 
     private void setupPlaceholderAPI() {
@@ -254,6 +261,10 @@ public class FactionsPlugin extends MPlugin {
 
     public HashMap<Faction, String> getShieldStatMap() {
         return shieldStatMap;
+    }
+
+    public ArrayList<War> getWarList() {
+        return warList;
     }
 
     public Map<String, FactionsAddon> getFactionsAddonHashMap() {
@@ -429,4 +440,12 @@ public class FactionsPlugin extends MPlugin {
     public FactionsPlayerListener getFactionsPlayerListener() {
         return this.factionsPlayerListener;
     }
+
+    public BukkitTask getWarManagerTask() {
+        return warManagerTask;
+    }
+
+    public void setWarManagerTask(BukkitTask newWarManagerTask) {
+    warManagerTask = newWarManagerTask;
+  }
 }

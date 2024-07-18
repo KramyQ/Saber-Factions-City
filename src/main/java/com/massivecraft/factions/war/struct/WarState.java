@@ -5,3 +5,4 @@ public enum WarState {
      WAR_PHASE,
      POST_WAR_PHASE,
     }
+

@@ -12,11 +12,13 @@ import com.massivecraft.factions.event.FPlayerLeaveEvent;
 import com.massivecraft.factions.scoreboards.FScoreboard;
 import com.massivecraft.factions.scoreboards.FTeamWrapper;
 import com.massivecraft.factions.scoreboards.sidebar.FDefaultSidebar;
+import com.massivecraft.factions.scoreboards.sidebar.FWarSidebar;
 import com.massivecraft.factions.struct.ChatMode;
 import com.massivecraft.factions.struct.Permission;
 import com.massivecraft.factions.struct.Relation;
 import com.massivecraft.factions.struct.Role;
 import com.massivecraft.factions.util.*;
+import com.massivecraft.factions.war.War;
 import com.massivecraft.factions.zcore.fperms.Access;
 import com.massivecraft.factions.zcore.fperms.PermissableAction;
 import com.massivecraft.factions.zcore.frame.FactionGUI;
@@ -182,6 +184,7 @@ public class FactionsPlayerListener implements Listener {
 
         // no door/chest/whatever protection in wilderness, war zones, or safe zones
         if (otherFaction.isSystemFaction()) return true;
+        if (War.canPlayerCanBuildDestroyInteractAtLocation(me, loc)) return true;
         if (myFaction.isWilderness()) {
             if (block.getType().name().contains("PLATE")) {
                 if (!Cooldown.isOnCooldown(player, "plateMessage")) {
@@ -395,8 +398,13 @@ public class FactionsPlayerListener implements Listener {
 
         if (FactionsPlugin.instance.getConfig().getBoolean("scoreboard.default-enabled", false)) {
             FScoreboard.init(me);
-            FScoreboard.get(me).setDefaultSidebar(new FDefaultSidebar());
-            FScoreboard.get(me).setSidebarVisibility(me.showScoreboard());
+            FScoreboard scoreboard = FScoreboard.get(me);
+            scoreboard.setDefaultSidebar(new FDefaultSidebar());
+            if (War.isFactionAtWar(me.getFaction())) {
+                scoreboard.setWarSidebar(new FWarSidebar(me.getFaction()));
+                me.setShowScoreboard(true);
+            }
+            scoreboard.setSidebarVisibility(me.showScoreboard());
         }
 
         Faction myFaction = me.getFaction();

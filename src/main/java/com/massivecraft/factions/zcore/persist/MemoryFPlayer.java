@@ -755,9 +755,9 @@ public abstract class MemoryFPlayer implements FPlayer {
         if ((Conf.worldsNoClaiming.contains(getLastStoodAt().getWorldName()) && !Conf.useWorldConfigurationsAsWhitelist) || (!Conf.worldsNoClaiming.contains(getLastStoodAt().getWorldName()) && Conf.useWorldConfigurationsAsWhitelist))
             return;
 
-        if (showInfoBoard(toShow)) {
-            FScoreboard.get(this).setTemporarySidebar(new FInfoSidebar(toShow));
-        }
+//        if (showInfoBoard(toShow)) {
+//            FScoreboard.get(this).setTemporarySidebar(new FInfoSidebar(toShow));
+//        }
         if (FactionsPlugin.getInstance().getConfig().getBoolean("scoreboard.also-send-chat", true))
             this.sendMessage(TextUtil.parse(TL.FACTION_LEAVE.format(from.getTag(this), toShow.getTag(this))));
     }

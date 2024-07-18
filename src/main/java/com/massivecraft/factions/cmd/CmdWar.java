@@ -40,19 +40,27 @@ public class CmdWar extends FCommand {
 
         if (!context.faction.isNormal()) return;
 
+        // Can only declare war to normal cities
         if (!them.isNormal()) {
             context.msg(TL.COMMAND_WAR_NOPE);
             return;
         }
 
+       // Can only declare war to normal cities
         if (them == context.faction) {
             context.msg(TL.COMMAND_WAR_MORENOPE);
             return;
         }
 
-        if (context.faction.getRelationTo(them) == Relation.ENEMY) {
+       // Can only declare war to an enemy city
+        if (context.faction.getRelationTo(them) != Relation.ENEMY) {
             context.msg(TL.COMMAND_WAR_NOT_ENEMY, them.getTag());
             return;
+        }
+
+        // Can only declare war if not already at War
+        if (War.isFactionAtWar(context.faction)){
+
         }
 
 //        if (them.getOnlinePlayers().size() < min_connected){
@@ -76,7 +84,7 @@ public class CmdWar extends FCommand {
         warList.add(newWar);
         newWar.setWarScoreboards();
 
-         context.msg("Nice job you are at War");
+        context.msg("Nice job you are at War");
 
 //        // if economy is enabled, they're not on the bypass list, and this command has a cost set, make 'em pay
 //        if (!context.payForCommand(targetRelation.getRelationCost(), TL.COMMAND_RELATIONS_TOMARRY, TL.COMMAND_RELATIONS_FORMARRY)) {

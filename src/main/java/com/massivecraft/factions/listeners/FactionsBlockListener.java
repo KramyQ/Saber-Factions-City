@@ -11,6 +11,8 @@ import com.massivecraft.factions.struct.Relation;
 import com.massivecraft.factions.struct.Role;
 import com.massivecraft.factions.util.CC;
 import com.massivecraft.factions.util.ItemBuilder;
+import com.massivecraft.factions.war.War;
+import com.massivecraft.factions.war.struct.WarState;
 import com.massivecraft.factions.zcore.fperms.Access;
 import com.massivecraft.factions.zcore.fperms.PermissableAction;
 import com.massivecraft.factions.zcore.util.TL;
@@ -26,8 +28,6 @@ import org.bukkit.event.block.*;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.inventory.ItemStack;
-
-import java.util.concurrent.TimeUnit;
 
 
 public class FactionsBlockListener implements Listener {
@@ -70,12 +70,12 @@ public class FactionsBlockListener implements Listener {
             if (!justCheck) me.msg(TL.ACTION_DENIED_WILDERNESS, action);
             return false;
         } else if (otherFaction.isSafeZone()) {
-            if (Conf.worldGuardBuildPriority &&  canBuildWG(location)) return true;
+            if (Conf.worldGuardBuildPriority && canBuildWG(location)) return true;
             if (!Conf.safeZoneDenyBuild || Permission.MANAGE_SAFE_ZONE.has(player)) return true;
             if (!justCheck) me.msg(TL.ACTION_DENIED_SAFEZONE, action);
             return false;
         } else if (otherFaction.isWarZone()) {
-            if (Conf.worldGuardBuildPriority &&  canBuildWG(location)) return true;
+            if (Conf.worldGuardBuildPriority && canBuildWG(location)) return true;
             if (!Conf.warZoneDenyBuild || Permission.MANAGE_WAR_ZONE.has(player)) return true;
             if (!justCheck) me.msg(TL.ACTION_DENIED_WARZONE, action);
             return false;
@@ -83,6 +83,7 @@ public class FactionsBlockListener implements Listener {
             if (FactionsPlugin.getInstance().getConfig().getBoolean("hcf.raidable", false) && otherFaction.getLandRounded() > otherFaction.getPowerRounded())
                 return true;
             boolean pain = !justCheck && otherFaction.getAccess(me, PermissableAction.PAIN_BUILD) == Access.ALLOW;
+            if (War.canPlayerCanBuildDestroyInteractAtLocation(me, loc)) return true;
             return CheckActionState(otherFaction, loc, me, PermissableAction.fromString(action), pain);
         } else if (otherFaction.getId().equals(myFaction.getId())) {
             boolean pain = !justCheck && myFaction.getAccess(me, PermissableAction.PAIN_BUILD) == Access.ALLOW;
@@ -348,7 +349,7 @@ public class FactionsBlockListener implements Listener {
         return !rel.confDenyBuild(otherFaction.hasPlayersOnline());
     }
 
-    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onBlockBreak(BlockBreakEvent event) {
 
         //If there is an error its much safer to not allow the block to be broken
@@ -357,13 +358,20 @@ public class FactionsBlockListener implements Listener {
 
             Faction at = Board.getInstance().getFactionAt(FLocation.wrap(block));
             boolean isSpawner = event.getBlock().getType().equals(XMaterial.matchXMaterial("MOB_SPAWNER").get().parseMaterial());
+
+             FPlayer fme = FPlayers.getInstance().getByPlayer(event.getPlayer());
+            if (fme == null || !fme.hasFaction()) return;
+
+            Faction factionAtBlock = Board.getInstance().getFactionAt(FLocation.wrap(event.getBlock().getLocation()));
+            War war = War.getFactionWar(factionAtBlock);
+            if (war != null && war.warState == WarState.WAR_PHASE && war.getDefenders().get(0) == factionAtBlock) {
+                event.setDropItems(false);
+            }
+
             if (!playerCanBuildDestroyBlock(event.getPlayer(), event.getBlock().getLocation(), "destroy", false)) {
                 event.setCancelled(true);
                 return;
             }
-
-            FPlayer fme = FPlayers.getInstance().getByPlayer(event.getPlayer());
-            if (fme == null || !fme.hasFaction()) return;
 
             if (isSpawner) {
                 Access access = fme.getFaction().getAccess(fme, PermissableAction.SPAWNER);

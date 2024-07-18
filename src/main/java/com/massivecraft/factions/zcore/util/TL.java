@@ -825,6 +825,12 @@ public enum TL {
     COMMAND_WAR_NOT_ENEMY("&c&l[!]&7 You &are&7 not enemy with&c %1$s."),
     COMMAND_WAR_NOT_ENOUGH_ENEMY("&c&l[!]&7 Your &enemy&7 doesn't have enough members connected."),
     COMMAND_WAR_NOT_ENOUGH_MEMBERS("&c&l[!]&7 Your &city&7  doesn't have enough members connected."),
+    COMMAND_WAR_CANT_CAPTURE_NO_FACTION("&c&l[!]&7 &cNope!You have no faction."),
+    COMMAND_WAR_CANT_CAPTURE_NO_WAR("&c&l[!]&7 &cNope!You are not at war."),
+    COMMAND_WAR_CANT_CAPTURE_NOT_DEFENDER_CHUNK("&c&l[!]&7 &cNope!You need to capture a defender claim."),
+    COMMAND_WAR_CANT_CAPTURE_NOT_ENOUGH_CARDINAL("&c&l[!]&7 &cNope! Too many claims are being captured."),
+    COMMAND_WAR_CANT_CAPTURE_ALREADY_CAPTUR("&c&l[!]&7 &cNope! This claim has already been captured."),
+    COMMAND_WAR_CANT_CAPTURE_SURROUND_RULE("&c&l[!]&7 &cNope! Make sure a surrounding claim is captured or doesn't belong to the defenders."),
 
 
     COMMAND_RELATIONS_ALLTHENOPE("&c&l[!]&7 &cNope!You can't."),
@@ -920,6 +926,7 @@ public enum TL {
 
     COMMAND_VIEWCHEST_DESCRIPTION("view a factions chest/pv"),
     COMMAND_WAR_DESCRIPTION("Declare war to another faction."),
+    COMMAND_CAPTURE_DESCRIPTION("Capture an enemy chunk in times of war."),
 
     COMMAND_VAULT_DESCRIPTION("Open your placed faction vault!"),
     COMMAND_VAULT_INVALID("&c&l[!]&7 Your vault was either&c claimed&7, &cbroken&7, or has&c not been&7 placed yet."),

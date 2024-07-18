@@ -104,10 +104,8 @@ public class FScoreboard {
         }
 
         defaultProvider = provider;
-        if (temporaryProvider == null) {
-            // We have no temporary provider; update the BufferedObjective!
-            updateSideBar();
-        }
+        updateSideBar();
+
 
         new BukkitRunnable() {
             @Override
@@ -116,36 +114,33 @@ public class FScoreboard {
                     cancel();
                     return;
                 }
-
-                if (temporaryProvider == null) {
-                    updateSideBar();
-                }
+                updateSideBar();
             }
         }.runTaskTimer(FactionsPlugin.getInstance(), 20, 20);
     }
 
-    public void setTemporarySidebar(final FSidebarProvider provider) {
-        if (!isSupportedByServer()) {
-            return;
-        }
-
-        temporaryProvider = provider;
-        updateSideBar();
-
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (removed) {
-                    return;
-                }
-
-                if (temporaryProvider == provider) {
-                    temporaryProvider = null;
-                    updateSideBar();
-                }
-            }
-        }.runTaskLater(FactionsPlugin.getInstance(), FactionsPlugin.getInstance().getConfig().getInt("scoreboard.expiration", 7) * 20L);
-    }
+//    public void setTemporarySidebar(final FSidebarProvider provider) {
+//        if (!isSupportedByServer()) {
+//            return;
+//        }
+//
+//        temporaryProvider = provider;
+//        updateSideBar();
+//
+//        new BukkitRunnable() {
+//            @Override
+//            public void run() {
+//                if (removed) {
+//                    return;
+//                }
+//
+//                if (temporaryProvider == provider) {
+//                    temporaryProvider = null;
+//                    updateSideBar();
+//                }
+//            }
+//        }.runTaskLater(FactionsPlugin.getInstance(), FactionsPlugin.getInstance().getConfig().getInt("scoreboard.expiration", 7) * 20L);
+//    }
 
     public void setWarSidebar(final FSidebarProvider provider) {
         if (!isSupportedByServer()) {
@@ -157,7 +152,7 @@ public class FScoreboard {
     }
 
     private void updateSideBar() {
-        FSidebarProvider provider = temporaryProvider != null ? temporaryProvider : warProvider != null ? warProvider: defaultProvider;
+        FSidebarProvider provider = warProvider != null ? warProvider : defaultProvider;
 
         if (provider == null) {
             bufferedObjective.hide();

@@ -147,6 +147,7 @@ public class CmdHelp extends FCommand {
         pageLines.add(FactionsPlugin.getInstance().cmdBase.cmdDisband.getUsageTemplate(context));
         pageLines.add("");
         pageLines.add(FactionsPlugin.getInstance().cmdBase.cmdWar.getUsageTemplate(context));
+        pageLines.add(FactionsPlugin.getInstance().cmdBase.cmdCapture.getUsageTemplate(context));
         pageLines.add(FactionsPlugin.getInstance().cmdBase.cmdRelationAlly.getUsageTemplate(context));
         pageLines.add(FactionsPlugin.getInstance().cmdBase.cmdRelationNeutral.getUsageTemplate(context));
         pageLines.add(FactionsPlugin.getInstance().cmdBase.cmdRelationEnemy.getUsageTemplate(context));

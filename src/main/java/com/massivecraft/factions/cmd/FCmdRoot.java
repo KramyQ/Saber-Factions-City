@@ -71,6 +71,7 @@ public class FCmdRoot extends FCommand implements CommandExecutor {
     public CmdPowerBoost cmdPowerBoost = new CmdPowerBoost();
     public CmdPower cmdPower = new CmdPower();
     public CmdWar cmdWar = new CmdWar();
+    public CmdCapture cmdCapture = new CmdCapture();
     public CmdRelationAlly cmdRelationAlly = new CmdRelationAlly();
     public CmdRelationEnemy cmdRelationEnemy = new CmdRelationEnemy();
     public CmdRelationNeutral cmdRelationNeutral = new CmdRelationNeutral();
@@ -236,6 +237,7 @@ public class FCmdRoot extends FCommand implements CommandExecutor {
         this.addSubCommand(this.cmdPower);
         this.addSubCommand(this.cmdPowerBoost);
         this.addSubCommand(this.cmdWar);
+        this.addSubCommand(this.cmdCapture);
         this.addSubCommand(this.cmdRelationAlly);
         this.addSubCommand(this.cmdRelationEnemy);
         this.addSubCommand(this.cmdRelationNeutral);

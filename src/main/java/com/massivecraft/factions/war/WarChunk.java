@@ -6,10 +6,11 @@ public class WarChunk {
     boolean captured = false;
     long startCapturing;
     long endCapture;
-    int progression = 0;
+    float progression = 0;
     Chunk chunk;
 
-    public WarChunk(Chunk chunk) {
+    public WarChunk(Chunk targetChunk) {
+        chunk = targetChunk;
         startCapturing = System.currentTimeMillis();
     }
 }

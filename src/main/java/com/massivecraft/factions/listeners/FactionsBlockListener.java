@@ -364,7 +364,7 @@ public class FactionsBlockListener implements Listener {
 
             Faction factionAtBlock = Board.getInstance().getFactionAt(FLocation.wrap(event.getBlock().getLocation()));
             War war = War.getFactionWar(factionAtBlock);
-            if (war != null && war.warState == WarState.WAR_PHASE && war.getDefenders().get(0) == factionAtBlock) {
+            if (war != null && war.warState == WarState.WAR_PHASE && war.getCapturedBukkitChunks().contains(block.getChunk())) {
                 event.setDropItems(false);
             }
 

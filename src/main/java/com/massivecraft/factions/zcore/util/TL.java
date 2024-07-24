@@ -823,6 +823,7 @@ public enum TL {
     COMMAND_WAR_NOPE("&c&l[!]&7 &cNope!You can't."),
     COMMAND_WAR_MORENOPE("&c&l[!]&7 &cNope!&7You can't declare a war to &cyourself"),
     COMMAND_WAR_NOT_ENEMY("&c&l[!]&7 You &are&7 not enemy with&c %1$s."),
+    COMMAND_WAR_AL_WAR("&c&l[!]&7 You &are&7 already at war!"),
     COMMAND_WAR_NOT_ENOUGH_ENEMY("&c&l[!]&7 Your &enemy&7 doesn't have enough members connected."),
     COMMAND_WAR_NOT_ENOUGH_MEMBERS("&c&l[!]&7 Your &city&7  doesn't have enough members connected."),
     COMMAND_WAR_CANT_CAPTURE_NO_FACTION("&c&l[!]&7 &cNope!You have no faction."),

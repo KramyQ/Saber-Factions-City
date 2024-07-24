@@ -265,12 +265,12 @@ public class War {
     private void regenChunks() {
         CoreProtectAPI api = getCoreProtect();
         if (api != null) {
-            for (FLocation chunkLocation : defenders.get(0).getAllClaims()) {
-                int x = chunkLocation.getIntX() * 16;
-                int z = chunkLocation.getIntZ() * 16;
+            for (Chunk chunkLocation : getCapturedBukkitChunks()) {
+                int x = chunkLocation.getX() * 16;
+                int z = chunkLocation.getZ() * 16;
                 for (int i = 7; i <= 8; i++) {
                     for (int j = 7; j <= 8; j++) {
-                        Location radius_center = new Location(chunkLocation.getChunk().getWorld(), x + i, 0, z + j);
+                        Location radius_center = new Location(chunkLocation.getWorld(), x + i, 0, z + j);
                         FactionsPlugin.getInstance().getServer().getScheduler().runTaskAsynchronously(FactionsPlugin.instance, () -> {
                             api.performRollback(Conf.warPeriodTimeMinutes * 60, null, null, null, null, null, 7, radius_center);
                         });

@@ -46,21 +46,22 @@ public class CmdWar extends FCommand {
             return;
         }
 
-       // Can only declare war to normal cities
+        // Can only declare war to normal cities
         if (them == context.faction) {
             context.msg(TL.COMMAND_WAR_MORENOPE);
             return;
         }
 
-       // Can only declare war to an enemy city
+        // Can only declare war to an enemy city
         if (context.faction.getRelationTo(them) != Relation.ENEMY) {
             context.msg(TL.COMMAND_WAR_NOT_ENEMY, them.getTag());
             return;
         }
 
         // Can only declare war if not already at War
-        if (War.isFactionAtWar(context.faction)){
-
+        if (War.isFactionAtWar(context.faction)) {
+            context.msg(TL.COMMAND_WAR_AL_WAR, them.getTag());
+            return;
         }
 
 //        if (them.getOnlinePlayers().size() < min_connected){

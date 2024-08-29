@@ -145,8 +145,8 @@ public class War {
 
     public void setWarScoreboards() {
         for (FPlayer player : getAllPlayers()) {
-            player.setShowScoreboard(true);
             FScoreboard.get(player).setWarSidebar(new FWarSidebar(player.getFaction()));
+            player.setShowScoreboard(true);
         }
     }
 
@@ -280,12 +280,6 @@ public class War {
         }
     }
 
-//    private void saveChunks() {
-//        WorldEdit.getInstance().
-//        captured.get(0).chunk.getChunkSnapshot()
-//        WorldEdit.getInstance()
-//    }
-
     private void setInitialRatios() {
         maxCapturing = getMaxCapturing();
         attackersNumber = getAttackersNumber();
@@ -293,6 +287,10 @@ public class War {
     }
 
     private static void cleanUpScoreboards(War war) {
+        for (FPlayer player : war.getAllPlayers()) {
+            FScoreboard.get(player).setWarSidebar(null);
+            player.setShowScoreboard(false);
+        }
     }
 
     private static void cleanUpWarData(War war) {

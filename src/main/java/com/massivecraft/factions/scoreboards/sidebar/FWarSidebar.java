@@ -34,7 +34,7 @@ public class FWarSidebar extends FSidebarProvider {
     @Override
     public List<String> getLines(FPlayer fplayer) {
         War war = War.getPlayerWar(fplayer);
-        Boolean isAttacker = war.getAttackers().contains(fplayer.getFaction());
+        Boolean isAttacker = war.getAllAttackers().contains(fplayer.getFaction());
         List<String> lines = new ArrayList<>();
         // Phase Line + Time Remaining
         lines.add(ChatColor.GOLD + war.getHumanizedWarState() + ChatColor.WHITE + " | " + ChatColor.WHITE + "⌛:" + ChatColor.GREEN + war.getHumanizedTimeToNextPhase());

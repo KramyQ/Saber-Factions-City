@@ -447,7 +447,7 @@ public class War {
     }
 
     public Faction getMainAttacker() {
-        return defenders.get(0);
+        return attackers.get(0);
     }
 
     public String getMainAttackerTag() {

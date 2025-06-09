@@ -43,13 +43,13 @@ public class CmdCapture extends FCommand {
             return;
         }
         War war = War.getPlayerWar(capturer);
-        if (war == null || war.getAttackers().get(0) != capturerFaction || war.warState != WarState.WAR_PHASE) {
+        if (war == null || war.getMainAttacker() != capturerFaction || war.warState != WarState.WAR_PHASE) {
             context.msg(TL.COMMAND_WAR_CANT_CAPTURE_NO_WAR);
             return;
         }
         FLocation targetChunkLocation = FLocation.wrap(new Location(targetChunk.getWorld(), targetChunk.getX() * 16, 0, targetChunk.getZ() * 16));
         Faction factionAtChunk = Board.getInstance().getFactionAt(targetChunkLocation);
-        Faction mainDefender = war.getDefenders().get(0);
+        Faction mainDefender = war.getMainDefender();
         // check if chunks belongs to main defending faction
         if (factionAtChunk != mainDefender) {
             context.msg(TL.COMMAND_WAR_CANT_CAPTURE_NOT_DEFENDER_CHUNK);

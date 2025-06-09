@@ -246,6 +246,12 @@ public class FCmdRoot extends FCommand implements CommandExecutor {
         this.addSubCommand(this.cmdPowerBoost);
         this.addSubCommand(this.cmdWar);
         this.addSubCommand(this.cmdCapture);
+        this.addSubCommand(this.cmdWarStop);
+        this.addSubCommand(this.cmdWarJoin);
+        this.addSubCommand(this.cmdWarInvite);
+        this.addSubCommand(this.cmdWarInfo);
+        this.addSubCommand(this.cmdWarList);
+        this.addSubCommand(this.cmdSetVip);
         this.addSubCommand(this.cmdRelationAlly);
         this.addSubCommand(this.cmdRelationEnemy);
         this.addSubCommand(this.cmdRelationNeutral);

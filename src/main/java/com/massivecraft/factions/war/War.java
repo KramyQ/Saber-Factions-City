@@ -2,11 +2,13 @@ package com.massivecraft.factions.war;
 
 import com.massivecraft.factions.*;
 import com.massivecraft.factions.scoreboards.FScoreboard;
+import com.massivecraft.factions.scoreboards.sidebar.FDefaultSidebar;
 import com.massivecraft.factions.scoreboards.sidebar.FWarSidebar;
 import com.massivecraft.factions.util.Logger;
 import com.massivecraft.factions.war.struct.ChunkState;
 import com.massivecraft.factions.war.struct.WarState;
 import com.massivecraft.factions.zcore.util.TL;
+import lombok.Getter;
 import net.coreprotect.CoreProtectAPI;
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Chunk;
@@ -40,17 +42,25 @@ public class War {
         return war.warState == WarState.WAR_PHASE && war.getCapturedBukkitChunks().contains(targetChunk);
     }
 
-    public ArrayList<Faction> getAttackers() {
-        return attackers;
-    }
-
+    @Getter
     ArrayList<Faction> attackers = new ArrayList<>();
+    @Getter
+    ArrayList<Faction> joiningAttackers = new ArrayList<>();
+    @Getter
+    ArrayList<Faction> invitedAttackers = new ArrayList<>();
 
-    public ArrayList<Faction> getDefenders() {
-        return defenders;
-    }
+    @Getter
+    FPlayer vip;
 
+
+    @Getter
     ArrayList<Faction> defenders = new ArrayList<>();
+    @Getter
+    ArrayList<Faction> joiningDefenders = new ArrayList<>();
+    @Getter
+    ArrayList<Faction> invitedDefenders = new ArrayList<>();
+
+
     ArrayList<WarChunk> captured = new ArrayList<>();
 
 
@@ -134,6 +144,17 @@ public class War {
         return allDefenders;
     }
 
+    public ArrayList<FPlayer> getAllAttackers() {
+        ArrayList<FPlayer> allAttackers = new ArrayList<>();
+        for (Faction faction : attackers) {
+            for (Player player : faction.getOnlinePlayers()) {
+                FPlayer fplayer = FPlayers.getInstance().getByPlayer(player);
+                allAttackers.add(fplayer);
+            }
+        }
+        return allAttackers;
+    }
+
     public int getAttackersNumber() {
         return getAllPlayers().size() - getAllDefenders().size();
     }
@@ -145,14 +166,35 @@ public class War {
 
     public void setWarScoreboards() {
         for (FPlayer player : getAllPlayers()) {
-            FScoreboard.get(player).setWarSidebar(new FWarSidebar(player.getFaction()));
-            player.setShowScoreboard(true);
+            FScoreboard scoreBoard = FScoreboard.get(player);
+            if (scoreBoard != null) {
+                scoreBoard.setWarSidebar(new FWarSidebar(player.getFaction()));
+                scoreBoard.setSidebarVisibility(true);
+            }
         }
     }
 
     // TEMP FOR DEBUG
     private void sendToParticipants(String message) {
         for (FPlayer player : getAllPlayers()) {
+            player.sendMessage(message);
+        }
+    }
+
+    private void sendToMainAttacker(String message) {
+        for (Player player : getMainAttacker().getOnlinePlayers()) {
+            player.sendMessage(message);
+        }
+    }
+
+    private void sendToMainDefender(String message) {
+        for (Player player : getMainDefender().getOnlinePlayers()) {
+            player.sendMessage(message);
+        }
+    }
+
+    private void sentToFaction(String message, Faction receiver) {
+        for (Player player : receiver.getOnlinePlayers()) {
             player.sendMessage(message);
         }
     }
@@ -252,8 +294,8 @@ public class War {
             case POST_WAR_PHASE:
                 if (war.isPostWarOver()) {
                     cleanUpScoreboards(war);
-                    cleanUpWarData(war);
                     war.sendToParticipants("Post War is over.");
+                    cleanUpWarData(war);
                 }
                 break;
             default:
@@ -288,8 +330,12 @@ public class War {
 
     private static void cleanUpScoreboards(War war) {
         for (FPlayer player : war.getAllPlayers()) {
-            FScoreboard.get(player).setWarSidebar(null);
-            player.setShowScoreboard(false);
+            player.sendMessage("Cleaning your scoreboard");
+            FScoreboard scoreBoard = FScoreboard.get(player);
+            if (scoreBoard != null) {
+                scoreBoard.setWarSidebar(null);
+                scoreBoard.setSidebarVisibility(player.showScoreboard());
+            }
         }
     }
 
@@ -359,11 +405,11 @@ public class War {
     public String getHumanizedWarState() {
         switch (warState) {
             case PRE_WAR_PHASE:
-                return "Pre War";
+                return "Prèparation";
             case WAR_PHASE:
-                return "War";
+                return "Guerre";
             case POST_WAR_PHASE:
-                return "Post War";
+                return "Après-Guerre";
             default:
                 return "Unknown";
         }
@@ -394,6 +440,14 @@ public class War {
 
     public String getMainDefenderTag() {
         return defenders.get(0).getTag();
+    }
+
+    public Faction getMainDefender() {
+        return defenders.get(0);
+    }
+
+    public Faction getMainAttacker() {
+        return defenders.get(0);
     }
 
     public String getMainAttackerTag() {
@@ -455,5 +509,122 @@ public class War {
             }
         }
         return null;
+    }
+
+
+    public void processJoinAttempt(Faction joiner, Faction joined) {
+        // Defense Side
+        if (getMainDefender() == joined) {
+            // Joiner has been invited
+            if (invitedDefenders.contains(joiner)) {
+                invitedDefenders.remove(joiner);
+                defenders.add(joiner);
+                notifyParticipantsWarAdd(joiner, "defender");
+                this.setWarScoreboards();
+            } else {
+                joiningDefenders.add(joiner);
+                notifyWarJoin(joiner);
+            }
+        } else if (getMainAttacker() == joined) {
+            // Joiner has been invited
+            if (invitedAttackers.contains(joiner)) {
+                invitedAttackers.remove(joiner);
+                attackers.add(joiner);
+                notifyParticipantsWarAdd(joiner, "attacker");
+                this.setWarScoreboards();
+            } else {
+                joiningAttackers.add(joiner);
+                notifyWarJoin(joiner);
+            }
+
+        }
+    }
+
+    private void notifyParticipantsWarAdd(Faction joiner, String role) {
+        if (role == "defender") {
+            sendToParticipants(joiner.getTag() + " has joined the war as a defender with " + joiner.getOnlinePlayers().size() + " warriors.");
+        }
+        if (role == "attacker") {
+            sendToParticipants(joiner.getTag() + " has joined the war as an attacker with " + joiner.getOnlinePlayers().size() + " warriors.");
+        }
+    }
+
+    private void notifyWarJoin(Faction joiner) {
+        sendToMainDefender(joiner.getTag() + " would like to join your war, type: /f warinvite " + joiner.getTag() + " to accept them.");
+    }
+
+    private void notifyInvitedToWar(Faction inviter, Faction invitee) {
+        sentToFaction(inviter.getTag() + " would like you to join their war, type: /f warjoin " + inviter.getTag() + " to join them.", invitee);
+    }
+
+    public void processInviteAttempt(Faction you, Faction them) {
+        if (getMainDefender() == you) {
+            // Joiner has been invited
+            if (joiningDefenders.contains(them)) {
+                joiningDefenders.remove(them);
+                defenders.add(them);
+                notifyParticipantsWarAdd(them, "defender");
+            } else {
+                invitedDefenders.add(them);
+                notifyInvitedToWar(you, them);
+            }
+        } else if (getMainAttacker() == you) {
+            // Joiner has been invited
+            if (joiningAttackers.contains(them)) {
+                joiningAttackers.remove(them);
+                attackers.add(them);
+                notifyParticipantsWarAdd(them, "attacker");
+            } else {
+                invitedAttackers.add(them);
+                notifyInvitedToWar(you, them);
+            }
+        }
+    }
+
+    public void interruptWar(String s) {
+        cleanUpScoreboards(this);
+        cleanUpWarData(this);
+        this.sendToParticipants("War has been ended, no cooldown will be applied: " + s);
+
+    }
+
+
+    public String getAttackersFactionTags() {
+        String attackerFactionsTags = "";
+        for (Faction attacker : attackers) {
+            attackerFactionsTags += attacker.getTag() + ", ";
+        }
+        return attackerFactionsTags;
+    }
+
+    public String getDefendersFactionTags() {
+        String defenderFactionsTags = "";
+        for (Faction defender : defenders) {
+            defenderFactionsTags += defender.getTag() + ", ";
+        }
+        return defenderFactionsTags;
+    }
+
+    public String getDefendersNames() {
+        String defendersNames = "";
+        for (FPlayer defender : getAllDefenders()) {
+            defendersNames += defender.getName() + ", ";
+        }
+        return defendersNames;
+    }
+
+    public String getAttackersNames() {
+        String attackersNames = "";
+        for (FPlayer attacker : getAllAttackers()) {
+            attackersNames += attacker.getName() + ", ";
+        }
+        return attackersNames;
+    }
+
+    public void setDefVip(FPlayer him) {
+        if(him != null && this.warState == WarState.PRE_WAR_PHASE){
+            vip = him;
+            sendToParticipants("Main defender VIP is now : "+ him.getName());
+        }
     }
 }

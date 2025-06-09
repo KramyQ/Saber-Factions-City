@@ -824,6 +824,7 @@ public enum TL {
     COMMAND_WAR_MORENOPE("&c&l[!]&7 &cNope!&7You can't declare a war to &cyourself"),
     COMMAND_WAR_NOT_ENEMY("&c&l[!]&7 You &are&7 not enemy with&c %1$s."),
     COMMAND_WAR_AL_WAR("&c&l[!]&7 You &are&7 already at war!"),
+    COMMAND_WAR_NOT_WAR("&c&l[!]&7 You &are&7 not at war!"),
     COMMAND_WAR_NOT_ENOUGH_ENEMY("&c&l[!]&7 Your &enemy&7 doesn't have enough members connected."),
     COMMAND_WAR_NOT_ENOUGH_MEMBERS("&c&l[!]&7 Your &city&7  doesn't have enough members connected."),
     COMMAND_WAR_CANT_CAPTURE_NO_FACTION("&c&l[!]&7 &cNope!You have no faction."),
@@ -832,6 +833,18 @@ public enum TL {
     COMMAND_WAR_CANT_CAPTURE_NOT_ENOUGH_CARDINAL("&c&l[!]&7 &cNope! Too many claims are being captured."),
     COMMAND_WAR_CANT_CAPTURE_ALREADY_CAPTUR("&c&l[!]&7 &cNope! This claim has already been captured."),
     COMMAND_WAR_CANT_CAPTURE_SURROUND_RULE("&c&l[!]&7 &cNope! Make sure a surrounding claim is captured or doesn't belong to the defenders."),
+
+
+    COMMAND_WARJOIN_NOT_ALLY("&c&l[!]&7 You &are&7 not ALlies with&c %1$s."),
+    COMMAND_WARJOIN_NOT_AT_WAR("&c&l[!]&7 Your ally is not at War."),
+    COMMAND_WARJOIN_ALREADY_JOINING("&c&l[!]&7 You are aleady trying to join this War."),
+
+    COMMAND_WARINVITE_NOT_MAIN("&c&l[!]&7 You &are&7 not a main defender/attacker."),
+    COMMAND_WARINVITE_AL_WAR("&c&l[!]&7 They &are&7 already at war!"),
+
+    COMMAND_VIP_NOT_AT_WAR_WAR("&c&l[!]&7 The &VIP&7 is not at war!"),
+    COMMAND_VIP_PLAYER_NOT_FACTION("&c&l[!]&7 The &VIP&7 is not in your faction!"),
+    COMMAND_VIP_NOT_PREWAR("&c&l[!]&7 The &VIP&7 had to be set during PREWAR!"),
 
 
     COMMAND_RELATIONS_ALLTHENOPE("&c&l[!]&7 &cNope!You can't."),

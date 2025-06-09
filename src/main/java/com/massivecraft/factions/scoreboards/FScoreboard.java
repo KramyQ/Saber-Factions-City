@@ -3,6 +3,7 @@ package com.massivecraft.factions.scoreboards;
 import com.massivecraft.factions.FPlayer;
 import com.massivecraft.factions.FPlayers;
 import com.massivecraft.factions.FactionsPlugin;
+import com.massivecraft.factions.scoreboards.sidebar.FWarSidebar;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -23,6 +24,7 @@ public class FScoreboard {
     private final Scoreboard scoreboard;
     private final FPlayer fplayer;
     private final BufferedObjective bufferedObjective;
+    private FSidebarProvider defaultProvider;
     private FSidebarProvider warProvider;
     private boolean removed = false;
 
@@ -98,17 +100,19 @@ public class FScoreboard {
         if (!isSupportedByServer()) {
             return;
         }
-        updateWarSideBar();
+
+        defaultProvider = provider;
+        updateSideBar();
 
 
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (removed || provider != warProvider) {
+                if (removed || provider != defaultProvider && provider != warProvider) {
                     cancel();
                     return;
                 }
-                updateWarSideBar();
+                updateSideBar();
             }
         }.runTaskTimer(FactionsPlugin.getInstance(), 20, 20);
     }
@@ -119,21 +123,12 @@ public class FScoreboard {
         }
 
         warProvider = provider;
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (removed || provider != warProvider) {
-                    cancel();
-                    return;
-                }
-                updateWarSideBar();
-            }
-        }.runTaskTimer(FactionsPlugin.getInstance(), 20, 20);
-        updateWarSideBar();
+        updateSideBar();
     }
 
-    private void updateWarSideBar() {
-        FSidebarProvider provider = warProvider ;
+    private void updateSideBar() {
+        FSidebarProvider provider = warProvider != null ? warProvider : defaultProvider;
+
         if (provider == null) {
             bufferedObjective.hide();
         } else {

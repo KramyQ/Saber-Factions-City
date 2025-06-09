@@ -22,7 +22,7 @@ public class CmdWarInfo extends FCommand {
     public CmdWarInfo() {
         super();
         this.requiredArgs.add("faction tag");
-        this.aliases.addAll(Aliases.war);
+        this.aliases.addAll(Aliases.warinfo);
 
         this.requirements = new CommandRequirements.Builder(Permission.WAR)
                 .playerOnly()

@@ -16,7 +16,7 @@ public class CmdSetVip extends FCommand {
     public CmdSetVip() {
         super();
         this.requiredArgs.add("player");
-        this.aliases.addAll(Aliases.war);
+        this.aliases.addAll(Aliases.warvip);
 
         this.requirements = new CommandRequirements.Builder(Permission.WAR)
                 .withRole(Role.MODERATOR)

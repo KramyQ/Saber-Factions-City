@@ -14,7 +14,7 @@ public class CmdWarStop extends FCommand {
     public CmdWarStop() {
         super();
         this.requiredArgs.add("faction tag");
-        this.aliases.addAll(Aliases.war);
+        this.aliases.addAll(Aliases.warstop);
         this.requirements = new CommandRequirements.Builder(Permission.ADMIN).build();
     }
 

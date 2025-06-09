@@ -16,7 +16,7 @@ public class CmdWarJoin extends FCommand {
     public CmdWarJoin() {
         super();
         this.requiredArgs.add("faction tag");
-        this.aliases.addAll(Aliases.war);
+        this.aliases.addAll(Aliases.warjoin);
 
         this.requirements = new CommandRequirements.Builder(Permission.WAR)
                 .withRole(Role.MODERATOR)

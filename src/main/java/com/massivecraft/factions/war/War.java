@@ -2,12 +2,9 @@ package com.massivecraft.factions.war;
 
 import com.massivecraft.factions.*;
 import com.massivecraft.factions.scoreboards.FScoreboard;
-import com.massivecraft.factions.scoreboards.sidebar.FDefaultSidebar;
 import com.massivecraft.factions.scoreboards.sidebar.FWarSidebar;
-import com.massivecraft.factions.util.Logger;
 import com.massivecraft.factions.war.struct.ChunkState;
 import com.massivecraft.factions.war.struct.WarState;
-import com.massivecraft.factions.zcore.util.TL;
 import lombok.Getter;
 import net.coreprotect.CoreProtectAPI;
 import org.apache.commons.lang3.tuple.Pair;

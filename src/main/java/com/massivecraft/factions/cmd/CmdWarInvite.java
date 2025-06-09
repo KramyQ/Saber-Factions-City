@@ -1,17 +1,11 @@
 package com.massivecraft.factions.cmd;
 
 import com.massivecraft.factions.Faction;
-import com.massivecraft.factions.FactionsPlugin;
-import com.massivecraft.factions.event.FactionWarEvent;
 import com.massivecraft.factions.struct.Permission;
 import com.massivecraft.factions.struct.Relation;
 import com.massivecraft.factions.struct.Role;
 import com.massivecraft.factions.war.War;
 import com.massivecraft.factions.zcore.util.TL;
-import org.bukkit.Bukkit;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class CmdWarInvite extends FCommand {
 
@@ -22,7 +16,7 @@ public class CmdWarInvite extends FCommand {
     public CmdWarInvite() {
         super();
         this.requiredArgs.add("faction tag");
-        this.aliases.addAll(Aliases.war);
+        this.aliases.addAll(Aliases.warinvite);
 
         this.requirements = new CommandRequirements.Builder(Permission.WAR)
                 .withRole(Role.MODERATOR)

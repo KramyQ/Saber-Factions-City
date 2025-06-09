@@ -72,6 +72,14 @@ public class FCmdRoot extends FCommand implements CommandExecutor {
     public CmdPower cmdPower = new CmdPower();
     public CmdWar cmdWar = new CmdWar();
     public CmdCapture cmdCapture = new CmdCapture();
+
+    public CmdWarStop cmdWarStop = new CmdWarStop();
+    public CmdWarJoin cmdWarJoin = new CmdWarJoin();
+    public CmdWarInvite cmdWarInvite = new CmdWarInvite();
+    public CmdWarInfo cmdWarInfo = new CmdWarInfo();
+    public CmdWarList cmdWarList = new CmdWarList();
+    public CmdSetVip cmdSetVip = new CmdSetVip();
+
     public CmdRelationAlly cmdRelationAlly = new CmdRelationAlly();
     public CmdRelationEnemy cmdRelationEnemy = new CmdRelationEnemy();
     public CmdRelationNeutral cmdRelationNeutral = new CmdRelationNeutral();

@@ -123,6 +123,15 @@ public class Aliases {
     public static ArrayList<String> war = new ArrayList<>(Collections.singletonList("war"));
     public static ArrayList<String> capture = new ArrayList<>(Collections.singletonList("capture"));
 
+    public static ArrayList<String> warstop = new ArrayList<>(Collections.singletonList("warstop"));
+
+    public static ArrayList<String> warjoin = new ArrayList<>(Collections.singletonList("warjoin"));
+    public static ArrayList<String> warinvite = new ArrayList<>(Collections.singletonList("warinvite"));
+
+    public static ArrayList<String> warinfo = new ArrayList<>(Collections.singletonList("warinfo"));
+    public static ArrayList<String> warlist = new ArrayList<>(Collections.singletonList("warlist"));
+        public static ArrayList<String> warvip = new ArrayList<>(Collections.singletonList("warvip"));
+
     public static ArrayList<String> roster_rosters = new ArrayList<>(Arrays.asList("rosters", "roster"));
     public static ArrayList<String> roster_invite = new ArrayList<>(Arrays.asList("add", "invite"));
     public static ArrayList<String> roster_kick = new ArrayList<>(Collections.singletonList("kick"));

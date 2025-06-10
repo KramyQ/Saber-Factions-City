@@ -901,3 +901,15 @@ Tntfill:
 # - {max-allies}    : Max # of allies a faction can have
 # - {max-enemies}   : Max # of enemies a faction can have
 # - {factionless}   : Count of all factionless players online
+
+database:
+  host: "localhost"
+  port: 5432
+  database: "factions"
+  username: "factions"
+  password: "votre_mot_de_passe"
+  max-pool-size: 20
+  min-idle-connections: 5
+  connection-timeout: 30000
+  idle-timeout: 600000
+  max-lifetime: 1800000

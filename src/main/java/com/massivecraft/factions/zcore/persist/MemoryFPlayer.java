@@ -89,8 +89,8 @@ public abstract class MemoryFPlayer implements FPlayer {
     protected boolean notificationsEnabled;
     protected boolean titlesEnabled = true;
     protected boolean seeingChunk = false;
-    boolean inspectMode = false;
-    boolean friendlyFire = false;
+    public boolean inspectMode = false;
+    public boolean friendlyFire = false;
 
     public MemoryFPlayer() {
     }

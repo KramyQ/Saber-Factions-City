@@ -9,7 +9,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 public abstract class FPlayers {
-    protected static FPlayers instance = getFPlayersImpl();
+    public static FPlayers instance = getFPlayersImpl();
 
     public static FPlayers getInstance() {
         return instance;

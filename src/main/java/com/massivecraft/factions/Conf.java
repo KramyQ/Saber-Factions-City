@@ -289,7 +289,6 @@ public class Conf {
     public static boolean allowCreeperEggingChests = true;
 
 
-
     // Economy settings
     public static boolean econEnabled = false;
     public static String econUniverseAccount = "";
@@ -405,7 +404,19 @@ public class Conf {
     public static int defaultMaxVaults = 0;
     public static boolean disableFlightOnFactionClaimChange = true;
 
-    public static Backend backEnd = Backend.JSON;
+    public static Backend backEnd = Backend.POSTGRESQL;
+
+
+    public static String databaseHost = "localhost";
+    public static int databasePort = 5432;
+    public static String databaseName = "factions";
+    public static String databaseUsername = "factions";
+    public static String databasePassword = "password";
+    public static int databaseMaxPoolSize = 20;
+    public static int databaseMinIdleConnections = 5;
+    public static long databaseConnectionTimeout = 30000;
+    public static long databaseIdleTimeout = 600000;
+    public static long databaseMaxLifetime = 1800000;
 
     // Taller and wider for "bigger f map"
     public static int mapHeight = 17;
@@ -473,18 +484,18 @@ public class Conf {
         }
 
         territoryDenyUsageMaterials.add(XMaterial.FLINT_AND_STEEL.parseMaterial());
-        if(FactionsPlugin.getInstance().version != 8) {
+        if (FactionsPlugin.getInstance().version != 8) {
             territoryDenyUsageMaterials.add(XMaterial.END_CRYSTAL.parseMaterial());
         }
         territoryDenyUsageMaterials.add(XMaterial.BUCKET.parseMaterial());
         territoryDenyUsageMaterials.add(XMaterial.WATER_BUCKET.parseMaterial());
         territoryDenyUsageMaterials.add(XMaterial.LAVA_BUCKET.parseMaterial());
 
-        if(FactionsPlugin.getInstance().version == 8) {
+        if (FactionsPlugin.getInstance().version == 8) {
             territoryDenyUsageMaterials.add(XMaterial.matchXMaterial("BOAT").get().parseMaterial());
         }
 
-        if(FactionsPlugin.getInstance().version >= 9) {
+        if (FactionsPlugin.getInstance().version >= 9) {
             territoryDenyUsageMaterials.add(XMaterial.matchXMaterial("ACACIA_BOAT").get().parseMaterial());
             territoryDenyUsageMaterials.add(XMaterial.matchXMaterial("BIRCH_BOAT").get().parseMaterial());
             territoryDenyUsageMaterials.add(XMaterial.matchXMaterial("DARK_OAK_BOAT").get().parseMaterial());
@@ -493,11 +504,11 @@ public class Conf {
             territoryDenyUsageMaterials.add(XMaterial.matchXMaterial("SPRUCE_BOAT").get().parseMaterial());
         }
 
-        if(FactionsPlugin.getInstance().version >= 19) {
+        if (FactionsPlugin.getInstance().version >= 19) {
             territoryDenyUsageMaterials.add(XMaterial.matchXMaterial("MANGROVE_BOAT").get().parseMaterial());
         }
 
-        if(FactionsPlugin.getInstance().version >= 20) {
+        if (FactionsPlugin.getInstance().version >= 20) {
             territoryDenyUsageMaterials.add(XMaterial.matchXMaterial("BAMBOO_RAFT").get().parseMaterial());
             territoryDenyUsageMaterials.add(XMaterial.matchXMaterial("CHERRY_BOAT").get().parseMaterial());
         }
@@ -646,6 +657,25 @@ public class Conf {
 
     public static void load() {
         FactionsPlugin.getInstance().persist.loadOrSaveDefault(i, Conf.class, "conf");
+        // Load database configuration from config.yml if using database backend
+        if (backEnd == Backend.POSTGRESQL) {
+            loadDatabaseConfig();
+        }
+    }
+
+    private static void loadDatabaseConfig() {
+        FactionsPlugin plugin = FactionsPlugin.getInstance();
+
+        databaseHost = plugin.getConfig().getString("database.host", databaseHost);
+        databasePort = plugin.getConfig().getInt("database.port", databasePort);
+        databaseName = plugin.getConfig().getString("database.database", databaseName);
+        databaseUsername = plugin.getConfig().getString("database.username", databaseUsername);
+        databasePassword = plugin.getConfig().getString("database.password", databasePassword);
+        databaseMaxPoolSize = plugin.getConfig().getInt("database.max-pool-size", databaseMaxPoolSize);
+        databaseMinIdleConnections = plugin.getConfig().getInt("database.min-idle-connections", databaseMinIdleConnections);
+        databaseConnectionTimeout = plugin.getConfig().getLong("database.connection-timeout", databaseConnectionTimeout);
+        databaseIdleTimeout = plugin.getConfig().getLong("database.idle-timeout", databaseIdleTimeout);
+        databaseMaxLifetime = plugin.getConfig().getLong("database.max-lifetime", databaseMaxLifetime);
     }
 
     public static void save() {
@@ -658,7 +688,8 @@ public class Conf {
 
     public enum Backend {
         JSON,
-        //MYSQL,  TODO add MySQL storage
+        POSTGRESQL  // Ajoutez cette ligne
     }
+
 }
 

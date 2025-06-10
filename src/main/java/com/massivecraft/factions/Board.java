@@ -9,7 +9,7 @@ import java.util.Set;
 
 
 public abstract class Board {
-    protected static Board instance = getBoardImpl();
+    public static Board instance = getBoardImpl();
 
     private static Board getBoardImpl() {
         return new JSONBoard();

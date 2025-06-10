@@ -7,7 +7,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 public abstract class Factions {
-    protected static Factions instance = getFactionsImpl();
+    public static Factions instance = getFactionsImpl();
 
     public static Factions getInstance() {
         return instance;
